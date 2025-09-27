@@ -25,7 +25,6 @@ async function main() {
 
     let privateKey = undefined;
     let provider = undefined;
-    let wallet = undefined;
     let deployer = undefined;
 
     if(currentNetwork === "rskTestnet" || currentNetwork === "rootstock") {
@@ -33,13 +32,11 @@ async function main() {
 
         const network = networkInfo[currentNetwork];
 
-        console.log(privateKey)
+        console.log(privateKey, network)
 
         provider = new ethers.providers.JsonRpcProvider(network.rpc);
 
-        wallet = new ethers.Wallet(privateKey);
-
-        deployer = wallet.connect(provider);
+        deployer = new ethers.Wallet(privateKey, provider);
     }
 
 
@@ -53,28 +50,28 @@ async function main() {
 
     // Deploy MockUSDRIF for testing
     console.log("\n📝 Deploying MockUSDRIF...");
-    const MockUSDRIF = await ethers.getContractFactory("MockUSDRIF");
+    const MockUSDRIF = await ethers.getContractFactory("MockUSDRIF", deployer);
     const usdrifToken = await MockUSDRIF.deploy(1000000); // 1M initial supply
     await usdrifToken.deployed();
     console.log("MockUSDRIF deployed to:", usdrifToken.address);
 
     // Deploy Payment Gateway
     console.log("\n💳 Deploying X402PaymentGateway...");
-    const PaymentGateway = await ethers.getContractFactory("X402PaymentGateway");
+    const PaymentGateway = await ethers.getContractFactory("X402PaymentGateway", deployer);
     const paymentGateway = await PaymentGateway.deploy(usdrifToken.address);
     await paymentGateway.deployed();
     console.log("X402PaymentGateway deployed to:", paymentGateway.address);
 
     // Deploy Access Control
     console.log("\n🔒 Deploying X402AccessControl...");
-    const AccessControl = await ethers.getContractFactory("X402AccessControl");
+    const AccessControl = await ethers.getContractFactory("X402AccessControl", deployer);
     const accessControl = await AccessControl.deploy(paymentGateway.address);
     await accessControl.deployed();
     console.log("X402AccessControl deployed to:", accessControl.address);
 
     // Deploy Service Registry
     console.log("\n📋 Deploying X402ServiceRegistry...");
-    const ServiceRegistry = await ethers.getContractFactory("X402ServiceRegistry");
+    const ServiceRegistry = await ethers.getContractFactory("X402ServiceRegistry", deployer);
     const serviceRegistry = await ServiceRegistry.deploy(paymentGateway.address);
     await serviceRegistry.deployed();
     console.log("X402ServiceRegistry deployed to:", serviceRegistry.address);

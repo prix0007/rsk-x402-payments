@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { Hash } from 'viem';
-import { X402Client, ROOTSTOCK_TESTNET, UpdateServiceParams } from '@prix0007/x402-payments-sdk';
-import { ethers } from 'ethers';
+import { useX402ClientTestnet, UpdateServiceParams } from '@prix0007/x402-payments-sdk';
 import { useServicesByOwner, Service } from '../utils/API';
 
 interface ServiceUpdateFormData {
@@ -14,6 +13,7 @@ interface ServiceUpdateFormData {
 
 const ServiceUpdateForm: React.FC = () => {
   const { address: userAddress, isConnected } = useAccount();
+  const client = useX402ClientTestnet();
   const [formData, setFormData] = useState<ServiceUpdateFormData>({
     selectedServiceId: '',
     serviceName: '',
@@ -59,7 +59,7 @@ const ServiceUpdateForm: React.FC = () => {
   const handleUpdatePrice = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isConnected || !userAddress) {
+    if (!isConnected || !userAddress || !client) {
       setUpdateError('Please connect your wallet first');
       return;
     }
@@ -74,15 +74,6 @@ const ServiceUpdateForm: React.FC = () => {
       setUpdateError(null);
       setUpdateHash(null);
       setUpdateType('price');
-
-      // Initialize X402 Client with signer
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-
-      const client = new X402Client({
-        network: ROOTSTOCK_TESTNET,
-        signer: signer
-      });
 
       // Prepare update parameters
       const updateParams: UpdateServiceParams = {
@@ -108,7 +99,7 @@ const ServiceUpdateForm: React.FC = () => {
   const handleUpdateStatus = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isConnected || !userAddress) {
+    if (!isConnected || !userAddress || !client) {
       setUpdateError('Please connect your wallet first');
       return;
     }
@@ -123,15 +114,6 @@ const ServiceUpdateForm: React.FC = () => {
       setUpdateError(null);
       setUpdateHash(null);
       setUpdateType('status');
-
-      // Initialize X402 Client with signer
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-
-      const client = new X402Client({
-        network: ROOTSTOCK_TESTNET,
-        signer: signer
-      });
 
       // Prepare update parameters
       const updateParams: UpdateServiceParams = {

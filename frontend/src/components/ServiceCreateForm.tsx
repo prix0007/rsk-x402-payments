@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useAccount } from 'wagmi';
 import { Hash } from 'viem';
-import { X402Client, ROOTSTOCK_TESTNET, CreateServiceParams } from '@prix0007/x402-payments-sdk';
-import { ethers } from 'ethers';
+import { useX402ClientTestnet, CreateServiceParams } from '@prix0007/x402-payments-sdk';
 
 interface ServiceFormData {
   name: string;
@@ -13,6 +12,7 @@ interface ServiceFormData {
 
 const ServiceCreateForm: React.FC = () => {
   const { address: userAddress, isConnected } = useAccount();
+  const client = useX402ClientTestnet();
   const [formData, setFormData] = useState<ServiceFormData>({
     name: '',
     description: '',
@@ -34,7 +34,7 @@ const ServiceCreateForm: React.FC = () => {
   const handleCreateService = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isConnected || !userAddress) {
+    if (!isConnected || !userAddress || !client) {
       setCreateError('Please connect your wallet first');
       return;
     }
@@ -48,15 +48,6 @@ const ServiceCreateForm: React.FC = () => {
       setIsCreating(true);
       setCreateError(null);
       setCreateHash(null);
-
-      // Initialize X402 Client with signer
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-
-      const client = new X402Client({
-        network: ROOTSTOCK_TESTNET,
-        signer: signer
-      });
 
       // Prepare service parameters
       const serviceParams: CreateServiceParams = {

@@ -61,3 +61,11 @@ export {
 
 // Re-export ethers for convenience
 export { ethers, BigNumber } from 'ethers';
+
+// React hooks (optional, only available if React is installed)
+export {
+  useX402Client,
+  useX402ClientTestnet,
+  useX402ClientMainnet,
+  useX402,
+} from './react';

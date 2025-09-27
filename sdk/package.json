@@ -29,6 +29,22 @@
   "dependencies": {
     "ethers": "^5.7.2"
   },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "wagmi": ">=2.0.0",
+    "viem": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "wagmi": {
+      "optional": true
+    },
+    "viem": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/jest": "^29.0.0",

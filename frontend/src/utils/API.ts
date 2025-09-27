@@ -1,4 +1,4 @@
-const BASE_URL = 'http://65.108.63.163:3000';
+const BASE_URL = 'https://x402.prix0007.dev';
 
 // API response interfaces
 export interface Service {

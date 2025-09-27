@@ -1,0 +1,43 @@
+{
+  "name": "@x402/payments-sdk",
+  "version": "1.0.0",
+  "description": "JavaScript/TypeScript SDK for X402 payments on Rootstock",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "x402",
+    "payments",
+    "rootstock",
+    "usdrif",
+    "blockchain",
+    "web3"
+  ],
+  "author": "X402 Team",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/x402-payments/sdk.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Users/princeanuragi/Documents/ethglobal-delhi/x402-payments/contracts/IERC20.sol": {
+      "lastModificationDate": 1758904365619,
+      "contentHash": "7287aa328314e72f7eb4503ac6d80fad",
+      "sourceName": "contracts/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/Users/princeanuragi/Documents/ethglobal-delhi/x402-payments/contracts/X402PaymentGateway.sol": {
+      "lastModificationDate": 1758907433673,
+      "contentHash": "9ed6f9a75529c00a3c385ec83cf4861f",
+      "sourceName": "contracts/X402PaymentGateway.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "X402PaymentGateway"
+      ]
+    },
+    "/Users/princeanuragi/Documents/ethglobal-delhi/x402-payments/contracts/X402ServiceRegistry.sol": {
+      "lastModificationDate": 1758907438388,
+      "contentHash": "7a789d090acfc4a47a55bd3ad745c3c6",
+      "sourceName": "contracts/X402ServiceRegistry.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./X402PaymentGateway.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "X402ServiceRegistry"
+      ]
+    },
+    "/Users/princeanuragi/Documents/ethglobal-delhi/x402-payments/contracts/X402AccessControl.sol": {
+      "lastModificationDate": 1758905152638,
+      "contentHash": "5f00c0caf09082a5e27e846a3d45607d",
+      "sourceName": "contracts/X402AccessControl.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./X402PaymentGateway.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "X402AccessControl"
+      ]
+    },
+    "/Users/princeanuragi/Documents/ethglobal-delhi/x402-payments/contracts/MockUSDRIF.sol": {
+      "lastModificationDate": 1758904433799,
+      "contentHash": "d9c3825715bf104841661737e1124785",
+      "sourceName": "contracts/MockUSDRIF.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.19"
+      ],
+      "artifacts": [
+        "MockUSDRIF"
+      ]
+    }
+  }
+}

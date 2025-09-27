@@ -1,5 +1,5 @@
 import React from "react";
-import { WagmiProvider } from 'wagmi'
+import { useAccount, WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Link, Route, BrowserRouter, Routes } from "react-router-dom";
 import { config } from './config'
@@ -12,6 +12,14 @@ const queryClient = new QueryClient()
 import ServiceDiscovery from "./pages/ServiceDiscovery";
 import PaymentVerification from "./pages/PaymentVerification";
 import ProtectedResource from "./pages/ProtectedResource";
+import Account from "./components/wallet/Account";
+import WalletOptions from "./components/wallet/WalletOptions";
+
+function ConnectWallet() {
+  const { isConnected } = useAccount()
+  if (isConnected) return <Account />
+  return <WalletOptions />
+}
 
 function App() {
 	return (
@@ -27,6 +35,7 @@ function App() {
 								<Link to="/">Services</Link>
 								<Link to="/payments">Payments</Link>
 								<Link to="/protected">Protected</Link>
+								<ConnectWallet />
 							</div>
 						</nav>
 

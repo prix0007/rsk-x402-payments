@@ -8,7 +8,6 @@ import {
   PaymentResult,
   PaymentProof,
   Subscription,
-  AccessRequest,
   AccessResult,
   TransactionOptions,
   X402Error,
@@ -28,14 +27,10 @@ import {
   formatUSDRIF,
   parseUSDRIF,
   isValidAddress,
-  getCurrentTimestamp,
-  isExpired,
   waitForTransaction,
-  retry,
   validateServiceParams,
   parseError,
 } from './utils';
-import { LOCAL_NETWORK } from './config';
 
 export class X402Client {
   private provider: ethers.providers.Provider;
@@ -50,7 +45,6 @@ export class X402Client {
 
   constructor(config: X402Config) {
     this.config = {
-      network: LOCAL_NETWORK,
       ...config,
     };
 

@@ -18,10 +18,10 @@ export const ROOTSTOCK_TESTNET: NetworkConfig = {
   chainId: 31,
   rpcUrl: 'https://public-node.testnet.rsk.co',
   contracts: {
-    paymentGateway: '0x0000000000000000000000000000000000000000', // Deploy address
-    serviceRegistry: '0x0000000000000000000000000000000000000000', // Deploy address
-    accessControl: '0x0000000000000000000000000000000000000000', // Deploy address
-    usdrifToken: '0x0000000000000000000000000000000000000000', // Test USDRIF address
+    paymentGateway: '0x7CE9684F7216d5B6A628447A7572B03753b9Ea2D', // Deploy address
+    serviceRegistry: '0xA1fbD37F47Fd9cdFec3386ee3D80af5B6b4faBd7', // Deploy address
+    accessControl: '0xAfD4915897a6E72825e27096E43755b22b514fa7', // Deploy address
+    usdrifToken: '0xC331eb6423aDe923F33512b265152d0882462914', // Test USDRIF address
   },
 };
 

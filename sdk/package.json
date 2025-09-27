@@ -18,7 +18,7 @@
     "blockchain",
     "web3"
   ],
-  "author": "X402 Team",
+  "author": "prix0007",
   "license": "MIT",
   "dependencies": {
     "ethers": "^5.7.2"
@@ -35,9 +35,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/x402-payments/sdk.git"
+    "url": "git+https://github.com/prix0007/rsk-x402-payments.git"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   }
 }

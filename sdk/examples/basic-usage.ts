@@ -1,4 +1,4 @@
-import { X402Client, LOCAL_NETWORK, parseUSDRIF } from '../src';
+import { X402Client, LOCAL_NETWORK, ROOTSTOCK_TESTNET, parseUSDRIF } from '../src';
 import { ethers } from 'ethers';
 
 // Example: Basic X402 SDK Usage
@@ -6,8 +6,8 @@ import { ethers } from 'ethers';
 async function basicExample() {
   // Initialize the client with a private key
   const client = new X402Client({
-    network: LOCAL_NETWORK,
-    privateKey: 'your-private-key-here', // Replace with actual private key
+    network: ROOTSTOCK_TESTNET,
+    privateKey: 'c2996cd94620937334d3b3a5e3ce3170b070085935a535f5db2192fbe334c6be', // Replace with actual private key
   });
 
   console.log('🚀 X402 SDK Basic Example');

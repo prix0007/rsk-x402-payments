@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import api from "../utils/API";
 
 interface Service {
 	id: string;
@@ -21,12 +22,10 @@ const ServiceDiscovery: React.FC = () => {
 
 	const fetchServices = async () => {
 		try {
-			const response = await fetch("http://localhost:3000/api/services");
-			if (!response.ok) {
-				throw new Error("Failed to fetch services");
+			const data = await api.getServices()
+			if(data?.success) {
+				setServices(data.data ?? []);
 			}
-			const data = await response.json();
-			setServices(data.services || []);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Unknown error");
 		} finally {
@@ -34,7 +33,8 @@ const ServiceDiscovery: React.FC = () => {
 		}
 	};
 
-	if (loading) return <div className="loading">Loading services...</div>;
+	if (loading) return <span className="loading loading-spinner loading-sm"></span>
+
 	if (error) return <div className="error">Error: {error}</div>;
 
 	return (

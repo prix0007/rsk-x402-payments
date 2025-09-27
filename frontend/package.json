@@ -12,11 +12,16 @@
 		"build-storybook": "storybook build"
 	},
 	"dependencies": {
+		"@tailwindcss/postcss": "^4.1.13",
 		"@tailwindcss/vite": "^4.1.13",
+		"@tanstack/react-query": "^5.90.2",
+		"postcss": "^8.5.6",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"react-router-dom": "^7.9.3",
-		"tailwindcss": "^4.1.13"
+		"tailwindcss": "^4.1.13",
+		"viem": "2.x",
+		"wagmi": "^2.17.5"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.4",
@@ -28,6 +33,7 @@
 		"@types/react": "^19.1.13",
 		"@types/react-dom": "^19.1.9",
 		"@vitejs/plugin-react": "^5.0.3",
+		"daisyui": "^5.1.24",
 		"globals": "^16.4.0",
 		"storybook": "^8.6.14",
 		"typescript": "^5.9.2",

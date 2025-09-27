@@ -1,3 +1,5 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
 const BASE_URL = 'https://x402.prix0007.dev';
 
 // API response interfaces
@@ -47,99 +49,138 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-// API utility class
-class API {
-  private baseUrl: string;
+// Query Keys
+export const queryKeys = {
+  services: ['services'] as const,
+  service: (id: string) => ['services', id] as const,
+  servicesByOwner: (owner: string) => ['services', 'owner', owner] as const,
+  paymentVerification: (paymentId: string) => ['payments', 'verify', paymentId] as const,
+  paymentProof: (paymentId: string) => ['payments', 'proof', paymentId] as const,
+  subscription: (serviceId: string, subscriber: string) => ['payments', 'subscription', serviceId, subscriber] as const,
+  protectedResource: (serviceId: string, resourceId: string) => ['x402', 'protected', serviceId, resourceId] as const,
+};
 
-  constructor(baseUrl: string = BASE_URL) {
-    this.baseUrl = baseUrl;
+// API utility functions
+const request = async <T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> => {
+  const url = `${BASE_URL}${endpoint}`;
+
+  const config: RequestInit = {
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+    ...options,
+  };
+
+  try {
+    const response = await fetch(url, config);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`API request failed for ${endpoint}:`, error);
+    throw error;
   }
+};
 
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
-    const url = `${this.baseUrl}${endpoint}`;
+// Services API Hooks
+export const useServices = () => {
+  return useQuery({
+    queryKey: queryKeys.services,
+    queryFn: () => request<ApiResponse<Service[]>>('/api/services'),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
 
-    const config: RequestInit = {
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-      ...options,
-    };
+export const useService = (serviceId: string, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: queryKeys.service(serviceId),
+    queryFn: () => request<Service>(`/api/services/${serviceId}`),
+    enabled: enabled && !!serviceId,
+    staleTime: 5 * 60 * 1000,
+  });
+};
 
-    try {
-      const response = await fetch(url, config);
+export const useServicesByOwner = (ownerAddress: string, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: queryKeys.servicesByOwner(ownerAddress),
+    queryFn: () => request<{ services: Service[] }>(`/api/services/owner/${ownerAddress}`),
+    enabled: enabled && !!ownerAddress,
+    staleTime: 5 * 60 * 1000,
+  });
+};
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+// Payments API Hooks
+export const usePaymentVerification = (paymentId: string, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: queryKeys.paymentVerification(paymentId),
+    queryFn: () => request<PaymentInfo>(`/api/payments/verify/${paymentId}`),
+    enabled: enabled && !!paymentId,
+    retry: 1,
+  });
+};
+
+export const usePaymentProof = (paymentId: string, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: queryKeys.paymentProof(paymentId),
+    queryFn: () => request<any>(`/api/payments/proof/${paymentId}`),
+    enabled: enabled && !!paymentId,
+    retry: 1,
+  });
+};
+
+export const useSubscription = (serviceId: string, subscriber: string, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: queryKeys.subscription(serviceId, subscriber),
+    queryFn: () => request<any>(`/api/payments/subscription/${serviceId}/${subscriber}`),
+    enabled: enabled && !!serviceId && !!subscriber,
+    staleTime: 2 * 60 * 1000, // 2 minutes
+  });
+};
+
+// X402 Protected Resources API Hook
+export const useProtectedResource = (serviceId: string, resourceId: string, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: queryKeys.protectedResource(serviceId, resourceId),
+    queryFn: async () => {
+      const url = `${BASE_URL}/api/x402/protected/${serviceId}/${resourceId}`;
+
+      try {
+        const response = await fetch(url, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const data = await response.json();
+
+        return {
+          status: response.status,
+          data: data,
+        };
+      } catch (error) {
+        console.error(`Protected resource check failed:`, error);
+        throw error;
       }
+    },
+    enabled: enabled && !!serviceId && !!resourceId,
+    retry: 1,
+    staleTime: 0, // Always refetch for protected resources
+  });
+};
 
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(`API request failed for ${endpoint}:`, error);
-      throw error;
-    }
-  }
-
-  // Services API
-  async getServices(): Promise<ApiResponse<Service[]>> {
-    return this.request<ApiResponse<Service[]>>('/api/services');
-  }
-
-  async getService(serviceId: string): Promise<Service> {
-    return this.request<Service>(`/api/services/${serviceId}`);
-  }
-
-  async getServicesByOwner(ownerAddress: string): Promise<{ services: Service[] }> {
-    return this.request<{ services: Service[] }>(`/api/services/owner/${ownerAddress}`);
-  }
-
-  // Payments API
-  async verifyPayment(paymentId: string): Promise<PaymentInfo> {
-    return this.request<PaymentInfo>(`/api/payments/verify/${paymentId}`);
-  }
-
-  async getPaymentProof(paymentId: string): Promise<any> {
-    return this.request<any>(`/api/payments/proof/${paymentId}`);
-  }
-
-  async getSubscription(serviceId: string, subscriber: string): Promise<any> {
-    return this.request<any>(`/api/payments/subscription/${serviceId}/${subscriber}`);
-  }
-
-  // X402 Protected Resources API
-  async checkProtectedResource(
-    serviceId: string,
-    resourceId: string
-  ): Promise<{ status: number; data: any }> {
-    const url = `${this.baseUrl}/api/x402/protected/${serviceId}/${resourceId}`;
-
-    try {
-      const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const data = await response.json();
-
-      return {
-        status: response.status,
-        data: data,
-      };
-    } catch (error) {
-      console.error(`Protected resource check failed:`, error);
-      throw error;
-    }
-  }
-
-  // Helper method to download payment proof as file
-  async downloadPaymentProof(paymentId: string): Promise<void> {
-    try {
-      const proof = await this.getPaymentProof(paymentId);
+// Mutation Hooks
+export const useDownloadPaymentProof = () => {
+  return useMutation({
+    mutationFn: async (paymentId: string) => {
+      const proof = await request<any>(`/api/payments/proof/${paymentId}`);
 
       // Create blob and download
       const blob = new Blob([JSON.stringify(proof, null, 2)], {
@@ -154,13 +195,21 @@ class API {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Failed to download payment proof:', error);
-      throw error;
-    }
-  }
-}
 
-// Export singleton instance
-export const api = new API();
-export default api;
+      return proof;
+    },
+  });
+};
+
+// Utility hook for invalidating queries
+export const useInvalidateQueries = () => {
+  const queryClient = useQueryClient();
+
+  return {
+    invalidateServices: () => queryClient.invalidateQueries({ queryKey: queryKeys.services }),
+    invalidateService: (serviceId: string) => queryClient.invalidateQueries({ queryKey: queryKeys.service(serviceId) }),
+    invalidatePaymentVerification: (paymentId: string) => queryClient.invalidateQueries({ queryKey: queryKeys.paymentVerification(paymentId) }),
+    invalidateProtectedResource: (serviceId: string, resourceId: string) => queryClient.invalidateQueries({ queryKey: queryKeys.protectedResource(serviceId, resourceId) }),
+    invalidateAll: () => queryClient.invalidateQueries(),
+  };
+};

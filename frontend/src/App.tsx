@@ -1,7 +1,7 @@
 import React from "react";
-import { useAccount, WagmiProvider } from 'wagmi'
+import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Link, Route, BrowserRouter, Routes } from "react-router-dom";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { config } from './config'
 
 import "./App.css";
@@ -12,34 +12,17 @@ const queryClient = new QueryClient()
 import ServiceDiscovery from "./pages/ServiceDiscovery";
 import PaymentVerification from "./pages/PaymentVerification";
 import ProtectedResource from "./pages/ProtectedResource";
-import Account from "./components/wallet/Account";
-import WalletOptions from "./components/wallet/WalletOptions";
-
-function ConnectWallet() {
-  const { isConnected } = useAccount()
-  if (isConnected) return <Account />
-  return <WalletOptions />
-}
+import Navbar from "./components/Navbar";
 
 function App() {
 	return (
 		<WagmiProvider config={config}>
 			<QueryClientProvider client={queryClient}>
 				<BrowserRouter>
-					<div className="app root">
-						<nav className="navbar">
-							<div className="nav-brand">
-								<h1>X402 Payments</h1>
-							</div>
-							<div className="nav-links">
-								<Link to="/">Services</Link>
-								<Link to="/payments">Payments</Link>
-								<Link to="/protected">Protected</Link>
-								<ConnectWallet />
-							</div>
-						</nav>
+					<div className="min-h-screen bg-gray-50">
+						<Navbar />
 
-						<main className="main-content">
+						<main className="container mx-auto px-4 py-8">
 							<Routes>
 								<Route path="/" element={<ServiceDiscovery />} />
 								<Route path="/payments" element={<PaymentVerification />} />

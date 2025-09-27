@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 
 // Test constants
-export const TEST_PRIVATE_KEY = '0x' + '1'.repeat(64);
+export const TEST_PRIVATE_KEY = `0x${  '1'.repeat(64)}`;
 export const TEST_ADDRESS = '0x70997970C51812dc3A010C7d01b50e0d17dc79C8';
 export const TEST_RPC_URL = 'http://localhost:8545';
 
@@ -94,7 +94,7 @@ export const mockContracts = {
 
 // Test data generators
 export const generateTestService = () => ({
-  id: '0x' + '1'.repeat(64),
+  id: `0x${  '1'.repeat(64)}`,
   name: 'Test Service',
   description: 'Test service description',
   owner: TEST_ADDRESS,
@@ -107,12 +107,12 @@ export const generateTestService = () => ({
 });
 
 export const generateTestPayment = () => ({
-  id: '0x' + '2'.repeat(64),
+  id: `0x${  '2'.repeat(64)}`,
   payer: TEST_ADDRESS,
-  recipient: '0x' + '3'.repeat(40),
+  recipient: `0x${  '3'.repeat(40)}`,
   amount: ethers.utils.parseEther('0.1'),
   timestamp: Math.floor(Date.now() / 1000),
-  resourceId: '0x' + '4'.repeat(64),
+  resourceId: `0x${  '4'.repeat(64)}`,
   verified: true,
 });
 

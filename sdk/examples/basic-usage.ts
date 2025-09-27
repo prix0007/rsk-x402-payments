@@ -1,5 +1,4 @@
 import { X402Client, LOCAL_NETWORK, ROOTSTOCK_TESTNET, parseUSDRIF } from '../src';
-import { ethers } from 'ethers';
 
 // Example: Basic X402 SDK Usage
 

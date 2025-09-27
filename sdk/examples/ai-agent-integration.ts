@@ -106,7 +106,6 @@ class AIAgent {
    * Monitor spending and usage
    */
   async getUsageReport() {
-    const userAddress = await this.x402.getSignerAddress();
     const balance = await this.x402.getBalance();
 
     console.log(`📊 ${this.agentId} Usage Report:`);

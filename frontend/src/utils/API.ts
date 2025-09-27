@@ -111,7 +111,7 @@ export const useService = (serviceId: string, enabled: boolean = true) => {
 export const useServicesByOwner = (ownerAddress: string, enabled: boolean = true) => {
   return useQuery({
     queryKey: queryKeys.servicesByOwner(ownerAddress),
-    queryFn: () => request<{ services: Service[] }>(`/api/services/owner/${ownerAddress}`),
+    queryFn: () => request<ApiResponse<Service[]>>(`/api/services/owner/${ownerAddress}`),
     enabled: enabled && !!ownerAddress,
     staleTime: 5 * 60 * 1000,
   });

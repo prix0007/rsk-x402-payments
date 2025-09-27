@@ -12,6 +12,7 @@ const queryClient = new QueryClient()
 import ServiceDiscovery from "./pages/ServiceDiscovery";
 import PaymentVerification from "./pages/PaymentVerification";
 import ProtectedResource from "./pages/ProtectedResource";
+import ServiceManagement from "./pages/ServiceManagement";
 import Navbar from "./components/Navbar";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
 							<Routes>
 								<Route path="/" element={<ServiceDiscovery />} />
 								<Route path="/payments" element={<PaymentVerification />} />
+								<Route path="/manage" element={<ServiceManagement />} />
 								<Route
 									path="/protected/:serviceId/:resourceId"
 									element={<ProtectedResource />}

@@ -37,6 +37,12 @@ const Navbar: React.FC = () => {
               Payments
             </Link>
             <Link
+              to="/manage"
+              className="hover:text-blue-300 transition-colors font-medium"
+            >
+              Manage
+            </Link>
+            <Link
               to="/protected"
               className="hover:text-blue-300 transition-colors font-medium"
             >
@@ -73,6 +79,12 @@ const Navbar: React.FC = () => {
               className="hover:text-blue-300 transition-colors font-medium"
             >
               Payments
+            </Link>
+            <Link
+              to="/manage"
+              className="hover:text-blue-300 transition-colors font-medium"
+            >
+              Manage
             </Link>
             <Link
               to="/protected"

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  x402-backend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - NETWORK=testnet
+      - PRIVATE_KEY=${PRIVATE_KEY:-0x1111111111111111111111111111111111111111111111111111111111111111}
+      - API_BASE_URL=http://localhost:3000
+      - CORS_ORIGIN=*
+    volumes:
+      # Mount custom .env file if it exists
+      - ./.env:/app/.env:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "const http = require('http'); http.get('http://localhost:3000/health', (res) => { if (res.statusCode === 200) { process.exit(0); } else { process.exit(1); } }).on('error', () => process.exit(1));"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  default:
+    name: x402-network

@@ -10,7 +10,7 @@ import ProtectedResource from "./pages/ProtectedResource";
 function App() {
 	return (
 		<Router>
-			<div className="app">
+			<div className="app root">
 				<nav className="navbar">
 					<div className="nav-brand">
 						<h1>X402 Payments</h1>

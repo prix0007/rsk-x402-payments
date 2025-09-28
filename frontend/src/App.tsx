@@ -1,7 +1,7 @@
 import React from "react";
 import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { Route, HashRouter, Routes } from "react-router-dom";
 import { config } from './config'
 
 import "./App.css";
@@ -20,7 +20,7 @@ function App() {
 	return (
 		<WagmiProvider config={config}>
 			<QueryClientProvider client={queryClient}>
-				<BrowserRouter>
+				<HashRouter>
 					<div className="min-h-screen bg-gray-50">
 						<Navbar />
 
@@ -37,7 +37,7 @@ function App() {
 							</Routes>
 						</main>
 					</div>
-				</BrowserRouter>
+				</HashRouter>
 			</QueryClientProvider>
 		</WagmiProvider>
 	);

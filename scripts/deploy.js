@@ -76,6 +76,11 @@ async function main() {
     await serviceRegistry.deployed();
     console.log("X402ServiceRegistry deployed to:", serviceRegistry.address);
 
+    // Authorize ServiceRegistry to update service status in PaymentGateway
+    console.log("\n🔐 Authorizing ServiceRegistry in PaymentGateway...");
+    await paymentGateway.authorizeService(serviceRegistry.address, true);
+    console.log("ServiceRegistry authorized to update service statuses");
+
     console.log("\n✅ Deployment Summary:");
     console.log("========================");
     console.log("MockUSDRIF:           ", usdrifToken.address);

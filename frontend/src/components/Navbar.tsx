@@ -28,25 +28,25 @@ const Navbar: React.FC = () => {
               to="/"
               className="hover:text-blue-300 transition-colors font-medium"
             >
-              Services
+              Discover
+            </Link>
+            <Link
+              to="/dashboard"
+              className="hover:text-blue-300 transition-colors font-medium"
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/manage"
+              className="hover:text-blue-300 transition-colors font-medium"
+            >
+              Create Service
             </Link>
             <Link
               to="/payments"
               className="hover:text-blue-300 transition-colors font-medium"
             >
               Payments
-            </Link>
-            <Link
-              to="/manage"
-              className="hover:text-blue-300 transition-colors font-medium"
-            >
-              Manage
-            </Link>
-            <Link
-              to="/protected"
-              className="hover:text-blue-300 transition-colors font-medium"
-            >
-              Protected
             </Link>
 
             {/* Wallet Connection */}
@@ -72,25 +72,25 @@ const Navbar: React.FC = () => {
               to="/"
               className="hover:text-blue-300 transition-colors font-medium"
             >
-              Services
+              Discover
+            </Link>
+            <Link
+              to="/dashboard"
+              className="hover:text-blue-300 transition-colors font-medium"
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/manage"
+              className="hover:text-blue-300 transition-colors font-medium"
+            >
+              Create Service
             </Link>
             <Link
               to="/payments"
               className="hover:text-blue-300 transition-colors font-medium"
             >
               Payments
-            </Link>
-            <Link
-              to="/manage"
-              className="hover:text-blue-300 transition-colors font-medium"
-            >
-              Manage
-            </Link>
-            <Link
-              to="/protected"
-              className="hover:text-blue-300 transition-colors font-medium"
-            >
-              Protected
             </Link>
 
             {/* Mobile Wallet Connection */}

@@ -70,9 +70,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) =
 
       // Subscribe to service using SDK (handles approval and payment automatically)
       const paymentResult = await client.subscribeToService(paymentParams);
+      const accessService = await client.requestAccess(resourceId, paymentResult.paymentId)
 
       setPurchaseHash(paymentResult.transactionHash as Hash);
       console.log('Subscription successful:', paymentResult);
+      console.log('request access service:', accessService)
 
     } catch (error) {
       console.error('Purchase failed:', error);

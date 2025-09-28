@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { useX402ClientTestnet } from '@prix0007/x402-payments-sdk';
 import { truncateAddress, formatDuration, formatPrice, copyToClipboard } from '../utils/utils';
+import { Address, getContract } from 'viem';
 
 interface Service {
   id: string;
@@ -31,6 +32,15 @@ const MySubscriptionsCard: React.FC<MySubscriptionsCardProps> = ({ service, onAc
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // (async () => {
+  //
+  //   const resourceId = client?.generateResourceId(`${subscription?.serviceId}/resource1`, userAddress)
+  //   console.log({ subscription, resourceId })
+  //   if(!userAddress || !resourceId) return;
+  //   console.log({ access: await client?.checkAccess(userAddress as Address, resourceId, 3600) })
+  //   console.log({ valid: await client?.hasValidAccess(userAddress as Address, resourceId) })
+  // })()
 
   useEffect(() => {
     fetchSubscription();

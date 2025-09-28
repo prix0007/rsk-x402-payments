@@ -56,7 +56,7 @@ describe('Utils', () => {
     it('should reject invalid addresses', () => {
       const invalidAddresses = [
         '0x123',
-        '742d35Cc6634C0532925a3b8D42c2D2bb56b7b8c',
+        '742d35CS6634C0532925a3b8D42c2D2bb56b7b8c',
         '0x',
         '',
         'not-an-address'

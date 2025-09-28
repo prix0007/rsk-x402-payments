@@ -174,8 +174,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) =
             {service.active ? 'Access Service' : 'Service Inactive'}
           </button>
 
-          {/* Purchase Service Button - Only shown when inactive */}
-          {!service.active && (
             <button
               onClick={handlePurchaseService}
               disabled={isPurchasing || !userAddress}
@@ -200,7 +198,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) =
                 `Purchase Service (${formatPrice(service.price)})`
               )}
             </button>
-          )}
         </div>
 
         {/* Purchase Status Messages */}

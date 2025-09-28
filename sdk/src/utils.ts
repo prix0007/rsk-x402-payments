@@ -36,7 +36,23 @@ export function parseUSDRIF(amount: string, decimals: number = 18): BigNumber {
  * Check if an address is valid
  */
 export function isValidAddress(address: string): boolean {
-  return ethers.utils.isAddress(address);
+  try {
+    // Convert to lowercase for validation since ethers.utils.isAddress is case-sensitive
+    return ethers.utils.isAddress(address.toLowerCase());
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Normalize address to proper checksum format
+ */
+export function normalizeAddress(address: string): string {
+  if (!isValidAddress(address)) {
+    throw new Error('Invalid address format');
+  }
+  // ethers.utils.getAddress handles both lowercase and mixed case addresses
+  return ethers.utils.getAddress(address.toLowerCase());
 }
 
 /**

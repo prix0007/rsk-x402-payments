@@ -44,6 +44,7 @@ export {
   formatUSDRIF,
   parseUSDRIF,
   isValidAddress,
+  normalizeAddress,
   getCurrentTimestamp,
   isExpired,
   waitForTransaction,

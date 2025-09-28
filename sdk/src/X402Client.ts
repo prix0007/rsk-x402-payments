@@ -27,6 +27,7 @@ import {
   formatUSDRIF,
   parseUSDRIF,
   isValidAddress,
+  normalizeAddress,
   waitForTransaction,
   validateServiceParams,
   parseError,
@@ -206,11 +207,8 @@ export class X402Client {
    */
   async getServicesByOwner(owner: string): Promise<Service[]> {
     try {
-      if (!isValidAddress(owner)) {
-        throw new ServiceError('Invalid owner address');
-      }
-
-      const serviceIds = await this.serviceRegistry.getServicesByOwner(owner);
+      const normalizedOwner = normalizeAddress(owner);
+      const serviceIds = await this.serviceRegistry.getServicesByOwner(normalizedOwner);
       const services = await Promise.all(
         serviceIds.map((id: string) => this.getService(id))
       );
@@ -395,7 +393,8 @@ export class X402Client {
    */
   async hasActiveSubscription(subscriber: string, serviceId: string): Promise<boolean> {
     try {
-      return await this.serviceRegistry.hasActiveSubscription(subscriber, serviceId);
+      const normalizedSubscriber = normalizeAddress(subscriber);
+      return await this.serviceRegistry.hasActiveSubscription(normalizedSubscriber, serviceId);
 
     } catch (error) {
       throw new PaymentError(`Failed to check subscription: ${parseError(error)}`);
@@ -407,7 +406,8 @@ export class X402Client {
    */
   async getSubscription(serviceId: string, subscriber: string): Promise<Subscription> {
     try {
-      const info = await this.serviceRegistry.getSubscriptionInfo(serviceId, subscriber);
+      const normalizedSubscriber = normalizeAddress(subscriber);
+      const info = await this.serviceRegistry.getSubscriptionInfo(serviceId, normalizedSubscriber);
 
       return {
         subscriber: info.sub,
@@ -480,17 +480,13 @@ export class X402Client {
    */
   async checkAccess(user: string, resourceId: string, validityPeriod?: number): Promise<AccessResult> {
     try {
-      // Validate and checksum the user address
-      if (!isValidAddress(user)) {
-        throw new AccessError('Invalid user address');
-      }
-
-      const checksummedUser = ethers.utils.getAddress(user);
+      // Validate and normalize the user address
+      const normalizedUser = normalizeAddress(user);
       const period = validityPeriod ?? 3600; // Default 1 hour
-      const hasAccess = await this.accessControl.checkAccess(checksummedUser, resourceId, period);
+      const hasAccess = await this.accessControl.checkAccess(normalizedUser, resourceId, period);
 
       if (hasAccess) {
-        const lastAccessTime = await this.accessControl.lastAccess(resourceId, checksummedUser);
+        const lastAccessTime = await this.accessControl.lastAccess(resourceId, normalizedUser);
         return {
           hasAccess: true,
           lastAccessTime: lastAccessTime.toNumber(),
@@ -510,13 +506,9 @@ export class X402Client {
    */
   async hasValidAccess(user: string, resourceId: string): Promise<boolean> {
     try {
-      // Validate and checksum the user address
-      if (!isValidAddress(user)) {
-        throw new AccessError('Invalid user address');
-      }
-
-      const checksummedUser = ethers.utils.getAddress(user);
-      return await this.accessControl.hasValidAccess(checksummedUser, resourceId);
+      // Validate and normalize the user address
+      const normalizedUser = normalizeAddress(user);
+      return await this.accessControl.hasValidAccess(normalizedUser, resourceId);
 
     } catch (error) {
       throw new AccessError(`Failed to check valid access: ${parseError(error)}`);
@@ -535,7 +527,8 @@ export class X402Client {
         throw new Error('No address provided and no signer available');
       }
 
-      return await this.usdrifToken.balanceOf(account);
+      const normalizedAccount = normalizeAddress(account);
+      return await this.usdrifToken.balanceOf(normalizedAccount);
 
     } catch (error) {
       throw new X402Error(`Failed to get balance: ${parseError(error)}`);
@@ -576,7 +569,10 @@ export class X402Client {
         throw new Error('No owner address provided and no signer available');
       }
 
-      return await this.usdrifToken.allowance(ownerAddress, spenderAddress);
+      const normalizedOwner = normalizeAddress(ownerAddress);
+      const normalizedSpender = normalizeAddress(spenderAddress);
+
+      return await this.usdrifToken.allowance(normalizedOwner, normalizedSpender);
 
     } catch (error) {
       throw new X402Error(`Failed to get allowance: ${parseError(error)}`);

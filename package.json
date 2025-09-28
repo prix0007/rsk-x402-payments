@@ -16,6 +16,8 @@
     "deploy:local": "hardhat run scripts/deploy.js --network hardhat",
     "deploy:testnet": "hardhat run scripts/deploy.js --network rskTestnet",
     "deploy:mainnet": "hardhat run scripts/deploy.js --network rootstock",
+    "authorize:testnet": "hardhat run scripts/authorize-service-registry.js --network rskTestnet",
+    "authorize:mainnet": "hardhat run scripts/authorize-service-registry.js --network rootstock",
     "node": "hardhat node",
     "lint": "solhint 'contracts/**/*.sol'",
     "verify:testnet": "hardhat verify --network rskTestnet",

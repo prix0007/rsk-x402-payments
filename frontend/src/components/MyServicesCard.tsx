@@ -49,11 +49,15 @@ const MyServicesCard: React.FC<MyServicesCardProps> = ({ service, onServiceUpdat
 
       const updateParams: UpdateServiceParams = {
         serviceId: service.id,
-        active: !service.isActive
+        active: !service.isActive,
+        price: client.parseUSDRIF(service.price) // Convert string price to BigNumber
       };
 
-      await client.updateService(updateParams);
-      setUpdateHash('0x' + Math.random().toString(16).substring(2, 66) as Hash); // Placeholder hash
+      // Call updateService (returns transaction hash)
+      const transactionHash = await client.updateService(updateParams);
+
+      // Set the actual transaction hash
+      setUpdateHash(transactionHash as Hash);
 
       // Trigger refresh
       if (onServiceUpdated) {

@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@prix0007/x402-payments-sdk':
-        specifier: ^1.0.3
-        version: 1.0.3(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.14)(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11)
+        specifier: ^1.0.4
+        version: 1.0.4(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.14)(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11)
       '@tailwindcss/postcss':
         specifier: ^4.1.13
         version: 4.1.13
@@ -705,8 +705,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@prix0007/x402-payments-sdk@1.0.3':
-    resolution: {integrity: sha512-6bsEe6dWATzf4SPKVNjTswEgUYAYmhHcCgaPCzDkOixM9I/9e/hWqI7Z4AyBVHiYuzQz5n4WGpCJiFfpzaL6ng==}
+  '@prix0007/x402-payments-sdk@1.0.4':
+    resolution: {integrity: sha512-sjKgB2HbNkiO44ncVP1BKHaSEkHKjYG85W4Z4dP5PjhlBSnYCwoc/Di0MSybOeTwiblk07ff+s6diky5YNt0KA==}
     engines: {node: '>=18.0.0'}
 
   '@reown/appkit-common@1.7.8':
@@ -3952,7 +3952,7 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prix0007/x402-payments-sdk@1.0.3(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.14)(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11)':
+  '@prix0007/x402-payments-sdk@1.0.4(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.14)(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11)':
     dependencies:
       ethers: 5.8.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       react: 19.1.1

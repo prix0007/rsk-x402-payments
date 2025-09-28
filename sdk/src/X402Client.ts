@@ -137,7 +137,7 @@ export class X402Client {
   /**
    * Update an existing service
    */
-  async updateService(params: UpdateServiceParams, options?: TransactionOptions): Promise<void> {
+  async updateService(params: UpdateServiceParams, options?: TransactionOptions): Promise<string> {
     if (!this.signer) {
       throw new ServiceError('Signer required for updating services');
     }
@@ -153,6 +153,7 @@ export class X402Client {
       );
 
       await waitForTransaction(tx.hash, this.provider);
+      return tx.hash;
 
     } catch (error) {
       throw new ServiceError(`Failed to update service: ${parseError(error)}`);

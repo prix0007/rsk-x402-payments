@@ -1,6 +1,6 @@
 {
   "name": "@prix0007/x402-payments-sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "JavaScript/TypeScript SDK for X402 payments on Rootstock",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

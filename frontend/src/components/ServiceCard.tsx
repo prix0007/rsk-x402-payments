@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { useAccount } from 'wagmi';
-import { parseEther, Address, Hash, stringToHex, keccak256, encodeAbiParameters, parseAbiParameters } from 'viem';
-import { writeContract } from '@wagmi/core';
+import { Hash } from 'viem';
+import { useX402ClientTestnet, PaymentParams } from '@prix0007/x402-payments-sdk';
 import { truncateAddress, formatDuration, formatPrice, copyToClipboard } from '../utils/utils';
-import { CONTRACT_ADDRESSES } from '../config/contracts';
-import { config } from '../config';
-import USDRIF from '../contracts/MockUSDRIF.sol/MockUSDRIF.json';
-import PAYMENTGATEWAY from '../contracts/X402PaymentGateway.sol/X402PaymentGateway.json';
 
 interface Service {
   id: string;
@@ -25,17 +21,22 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) => {
   const { address: userAddress } = useAccount();
+  const client = useX402ClientTestnet();
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [purchaseHash, setPurchaseHash] = useState<Hash | null>(null);
   const [purchaseError, setPurchaseError] = useState<string | null>(null);
+  const [approvalStatus, setApprovalStatus] = useState<'checking' | 'approving' | 'sufficient' | null>(null);
 
   const handleCopyAddress = async (address: string) => {
     await copyToClipboard(address);
     // You could add a toast notification here
   };
 
+  console.log(client?.generateResourceId(`0x4e55b4685aab418ed1fa6be5d01f40613077866a17379c5598f35e38bc367ba3
+/resource1`, userAddress))
+
   const handlePurchaseService = async () => {
-    if (!userAddress) {
+    if (!userAddress || !client) {
       setPurchaseError('Please connect your wallet first');
       return;
     }
@@ -44,44 +45,41 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) =
       setIsPurchasing(true);
       setPurchaseError(null);
       setPurchaseHash(null);
+      setApprovalStatus('checking');
 
-      // Convert service ID to bytes32 using keccak256 hash
-      const serviceIdBytes32 = keccak256(stringToHex(service.id));
+      // Check current allowance
+      const servicePrice = client.parseUSDRIF(service.price);
+      const currentAllowance = await client.getAllowance();
+
+      if (currentAllowance.gte(servicePrice)) {
+        setApprovalStatus('sufficient');
+        console.log('Sufficient allowance already exists, skipping approval');
+      } else {
+        setApprovalStatus('approving');
+        console.log('Insufficient allowance, approval will be required');
+      }
 
       // Generate resource ID for this payment (using service + resource1)
-      const resourceString = `${service.id}/resource1`;
-      const resourceIdBytes32 = keccak256(stringToHex(resourceString));
+      const resourceId = client.generateResourceId(`${service.id}/resource1`, userAddress);
 
-      // First approve the payment gateway to spend USDRIF tokens
-      const approvalHash = await writeContract(config, {
-        address: CONTRACT_ADDRESSES.USDRIF_TOKEN as Address,
-        abi: USDRIF.abi,
-        functionName: 'approve',
-        args: [CONTRACT_ADDRESSES.PAYMENT_GATEWAY, parseEther(service.price) * 10n],
-        gas: 27000n,
-      });
+      // Prepare payment parameters
+      const paymentParams: PaymentParams = {
+        serviceId: service.id,
+        resourceId: resourceId
+      };
 
-      console.log('Approval transaction:', approvalHash);
+      // Subscribe to service using SDK (handles approval and payment automatically)
+      const paymentResult = await client.subscribeToService(paymentParams);
 
-      // Wait a bit for approval to be mined (in a real app, you'd wait for confirmation)
-      await new Promise(resolve => setTimeout(resolve, 5000));
-
-      // Then make payment to the service via payment gateway
-      const paymentHash = await writeContract(config, {
-        address: CONTRACT_ADDRESSES.PAYMENT_GATEWAY as Address,
-        abi: PAYMENTGATEWAY.abi,
-        functionName: 'makePayment',
-        args: [serviceIdBytes32, resourceIdBytes32],
-      });
-
-      setPurchaseHash(paymentHash);
-      console.log('Payment transaction:', paymentHash);
+      setPurchaseHash(paymentResult.transactionHash as Hash);
+      console.log('Subscription successful:', paymentResult);
 
     } catch (error) {
       console.error('Purchase failed:', error);
       setPurchaseError(error instanceof Error ? error.message : 'Purchase failed');
     } finally {
       setIsPurchasing(false);
+      setApprovalStatus(null);
     }
   };
 
@@ -190,7 +188,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) =
               {isPurchasing ? (
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Purchasing...
+                  {approvalStatus === 'checking' ? 'Checking Allowance...' :
+                   approvalStatus === 'approving' ? 'Approving Tokens...' :
+                   approvalStatus === 'sufficient' ? 'Processing Payment...' :
+                   'Purchasing...'
+                  }
                 </div>
               ) : !userAddress ? (
                 'Connect Wallet to Purchase'
@@ -202,6 +204,24 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) =
         </div>
 
         {/* Purchase Status Messages */}
+        {approvalStatus === 'sufficient' && isPurchasing && (
+          <div className="mt-3 p-2 bg-blue-50 border border-blue-200 rounded text-blue-700 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+              Sufficient allowance found, skipping approval step
+            </div>
+          </div>
+        )}
+
+        {approvalStatus === 'approving' && isPurchasing && (
+          <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded text-yellow-700 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 border-2 border-yellow-600 border-t-transparent rounded-full animate-spin"></div>
+              Token approval required - please confirm in your wallet
+            </div>
+          </div>
+        )}
+
         {purchaseError && (
           <div className="mt-3 p-2 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
             {purchaseError}

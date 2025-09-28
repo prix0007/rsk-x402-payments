@@ -22,6 +22,7 @@ const ServiceCreateForm: React.FC = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [createHash, setCreateHash] = useState<Hash | null>(null);
   const [createError, setCreateError] = useState<string | null>(null);
+  const [creationStep, setCreationStep] = useState<'creating' | 'activating' | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -48,6 +49,7 @@ const ServiceCreateForm: React.FC = () => {
       setIsCreating(true);
       setCreateError(null);
       setCreateHash(null);
+      setCreationStep('creating');
 
       // Prepare service parameters
       const serviceParams: CreateServiceParams = {
@@ -60,9 +62,20 @@ const ServiceCreateForm: React.FC = () => {
 
       // Create service using SDK
       const transactionHash = await client.createService(serviceParams);
-
-      setCreateHash(transactionHash as Hash);
       console.log('Service creation transaction:', transactionHash);
+
+      // Auto-activate the service after creation
+      setCreationStep('activating');
+      const serviceId = client.generateServiceId(formData.name);
+      console.log('Auto-activating service with ID:', serviceId);
+
+      await client.updateService({
+        serviceId: serviceId,
+        active: true
+      });
+
+      console.log('Service auto-activated successfully');
+      setCreateHash(transactionHash as Hash);
 
       // Reset form on success
       setFormData({
@@ -77,6 +90,7 @@ const ServiceCreateForm: React.FC = () => {
       setCreateError(error instanceof Error ? error.message : 'Service creation failed');
     } finally {
       setIsCreating(false);
+      setCreationStep(null);
     }
   };
 
@@ -183,13 +197,34 @@ const ServiceCreateForm: React.FC = () => {
           {isCreating ? (
             <div className="flex items-center justify-center gap-2">
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              Creating Service...
+              {creationStep === 'creating' ? 'Creating Service...' :
+               creationStep === 'activating' ? 'Activating Service...' :
+               'Processing...'}
             </div>
           ) : (
             'Create Service'
           )}
         </button>
       </form>
+
+      {/* Creation Status Messages */}
+      {creationStep === 'creating' && isCreating && (
+        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-blue-700 text-sm font-medium">Creating service on blockchain...</p>
+          </div>
+        </div>
+      )}
+
+      {creationStep === 'activating' && isCreating && (
+        <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-md">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-green-700 text-sm font-medium">Auto-activating service for immediate use...</p>
+          </div>
+        </div>
+      )}
 
       {/* Error Message */}
       {createError && (

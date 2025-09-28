@@ -1,6 +1,7 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+import { NETWORKS, LOCAL_NETWORK, ROOTSTOCK_TESTNET, ROOTSTOCK_MAINNET } from '@prix0007/x402-payments-sdk/dist/config.js';
 
-const { NETWORKS, LOCAL_NETWORK, ROOTSTOCK_TESTNET, ROOTSTOCK_MAINNET } = require('@prix0007/x402-payments-sdk');
+dotenv.config();
 
 // Determine network based on environment
 const getNetworkConfig = () => {
@@ -44,4 +45,4 @@ console.log('Network Config:', {
   name: networkConfig.name
 });
 
-module.exports = config;
+export default config;

@@ -1,4 +1,4 @@
-const { z } = require('zod');
+import { z } from 'zod';
 
 // Basic validation schemas for parameters that are still used
 const serviceIdSchema = z.string().regex(/^0x[a-fA-F0-9]{64}$/, 'Invalid service ID format');
@@ -38,7 +38,7 @@ const validateQuery = (schema) => {
   };
 };
 
-module.exports = {
+export {
   serviceIdSchema,
   resourceIdSchema,
   addressSchema,

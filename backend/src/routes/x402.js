@@ -1,15 +1,6 @@
-const express = require('express');
-const x402Client = require('../x402Client');
-const config = require('../config');
-
-// Import ethers from the SDK package
-let ethers;
-try {
-  ethers = require('@prix0007/x402-payments-sdk').ethers;
-} catch (error) {
-  // Fallback to direct import if available
-  ethers = require('ethers');
-}
+import express from 'express';
+import x402Client from '../x402Client.js';
+import config from '../config.js';
 
 const router = express.Router();
 
@@ -27,6 +18,8 @@ router.get('/protected/:serviceId/:resourceId', async (req, res) => {
 
     // Check if user has valid access (paid subscription or payment)
     const accessResult = await x402Client.checkAccess(userAddress, resourceId);
+
+    console.log({ accessResult })
 
     if (!accessResult.hasAccess) {
       // Get service details for payment info
@@ -47,7 +40,7 @@ router.get('/protected/:serviceId/:resourceId', async (req, res) => {
           serviceId,
           resourceId,
           serviceName: service.name,
-          price: ethers.utils.formatEther(service.price),
+          price: x402Client.formatUSDRIF(service.price),
           currency: 'USDRIF',
           network: 'rootstock',
           validityDuration: service.validityDuration,
@@ -91,4 +84,4 @@ router.get('/protected/:serviceId/:resourceId', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

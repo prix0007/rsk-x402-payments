@@ -1,5 +1,5 @@
-const express = require('express');
-const x402Client = require('../x402Client');
+import express from 'express';
+import x402Client from '../x402Client.js';
 
 const router = express.Router();
 
@@ -81,4 +81,4 @@ router.get('/subscription/:serviceId/:subscriber', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -1,14 +1,5 @@
-const express = require('express');
-const x402Client = require('../x402Client');
-
-// Import ethers from the SDK package
-let ethers;
-try {
-  ethers = require('@prix0007/x402-payments-sdk').ethers;
-} catch (error) {
-  // Fallback to direct import if available
-  ethers = require('ethers');
-}
+import express from 'express';
+import x402Client from '../x402Client.js';
 
 const router = express.Router();
 
@@ -24,12 +15,12 @@ router.get('/', async (req, res) => {
         name: service.name,
         description: service.description,
         owner: service.owner,
-        price: ethers.utils.formatEther(service.price),
+        price: x402Client.formatUSDRIF(service.price),
         validityDuration: service.validityDuration,
         endpoints: service.endpoints,
         active: service.active,
         totalPayments: service.totalPayments,
-        totalRevenue: ethers.utils.formatEther(service.totalRevenue)
+        totalRevenue: x402Client.formatUSDRIF(service.totalRevenue)
       }))
     });
   } catch (error) {
@@ -63,12 +54,12 @@ router.get('/:serviceId', async (req, res) => {
         name: service.name,
         description: service.description,
         owner: service.owner,
-        price: ethers.utils.formatEther(service.price),
+        price: x402Client.formatUSDRIF(service.price),
         validityDuration: service.validityDuration,
         endpoints: service.endpoints,
         active: service.active,
         totalPayments: service.totalPayments,
-        totalRevenue: ethers.utils.formatEther(service.totalRevenue)
+        totalRevenue: x402Client.formatUSDRIF(service.totalRevenue)
       }
     });
   } catch (error) {
@@ -95,12 +86,12 @@ router.get('/owner/:ownerAddress', async (req, res) => {
         name: service.name,
         description: service.description,
         owner: service.owner,
-        price: ethers.utils.formatEther(service.price),
+        price: x402Client.formatUSDRIF(service.price),
         validityDuration: service.validityDuration,
         endpoints: service.endpoints,
         active: service.active,
         totalPayments: service.totalPayments,
-        totalRevenue: ethers.utils.formatEther(service.totalRevenue)
+        totalRevenue: x402Client.formatUSDRIF(service.totalRevenue)
       }))
     });
   } catch (error) {
@@ -113,4 +104,4 @@ router.get('/owner/:ownerAddress', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

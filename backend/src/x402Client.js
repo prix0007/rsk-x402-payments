@@ -1,7 +1,9 @@
-const { X402Client } = require('@prix0007/x402-payments-sdk');
-const config = require('./config');
+import { X402Client } from '@prix0007/x402-payments-sdk/dist/X402Client.js';
+import config from './config.js';
 
 // Create X402 client instance using network config from SDK
+let x402Client;
+
 try {
   console.log('Initializing X402Client with:', {
     networkName: config.network.name,
@@ -23,12 +25,13 @@ try {
     console.log('Using custom RPC URL:', config.rpcUrl);
   }
 
-  const x402Client = new X402Client(clientConfig);
+  x402Client = new X402Client(clientConfig);
 
   console.log('X402Client initialized successfully');
-  module.exports = x402Client;
 } catch (error) {
   console.error('Failed to initialize X402Client:', error);
   console.error('Stack trace:', error.stack);
   throw error;
 }
+
+export default x402Client;

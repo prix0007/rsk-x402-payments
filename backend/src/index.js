@@ -1,13 +1,13 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const config = require('./config');
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import config from './config.js';
 
 // Import routes
-const servicesRouter = require('./routes/services');
-const paymentsRouter = require('./routes/payments');
-const x402Router = require('./routes/x402');
+import servicesRouter from './routes/services.js';
+import paymentsRouter from './routes/payments.js';
+import x402Router from './routes/x402.js';
 
 const app = express();
 
@@ -120,4 +120,4 @@ app.listen(port, () => {
   console.log(`❤️  Health Check: http://localhost:${port}/health`);
 });
 
-module.exports = app;
+export default app;

@@ -109,9 +109,9 @@ const Dashboard: React.FC = () => {
     const resourceId = client?.generateResourceId(`${serviceId}/resource1`, userAddress)
     const url = `https://x402.prix0007.dev/api/x402/protected/${serviceId}/${resourceId}`
     try {
-      console.log(url)
       const res = await fetch(url, { headers: { "X-User-Address": userAddress ?? "" }})
-      console.log(await res.json())
+      const json = await res.json()
+      alert(JSON.stringify(json?.data))
     } catch(e) {
       console.error(e)
     }

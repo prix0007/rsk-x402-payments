@@ -11,7 +11,7 @@ interface Service {
   price: string;
   owner: string;
   validityDuration: number;
-  isActive: boolean;
+  active: boolean;
 }
 
 interface ServiceCardProps {
@@ -20,6 +20,7 @@ interface ServiceCardProps {
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) => {
+
   const { address: userAddress } = useAccount();
   const client = useX402ClientTestnet();
   const [isPurchasing, setIsPurchasing] = useState(false);
@@ -91,11 +92,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) =
             {service.name}
           </h2>
           <div className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-            service.isActive
+            service.active
               ? 'bg-green-100 text-green-800'
               : 'bg-red-100 text-red-800'
           }`}>
-            {service.isActive ? 'Active' : 'Inactive'}
+            {service.active ? 'Active' : 'Inactive'}
           </div>
         </div>
 
@@ -163,18 +164,18 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) =
           {/* Access Service Button - Only enabled when active */}
           <button
             onClick={() => onAccessService(service.id)}
-            disabled={!service.isActive}
+            disabled={!service.active}
             className={`w-full py-2 px-4 rounded-lg font-medium transition-colors ${
-              service.isActive
+              service.active
                 ? 'bg-blue-600 hover:bg-blue-700 text-white'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >
-            {service.isActive ? 'Access Service' : 'Service Inactive'}
+            {service.active ? 'Access Service' : 'Service Inactive'}
           </button>
 
           {/* Purchase Service Button - Only shown when inactive */}
-          {!service.isActive && (
+          {!service.active && (
             <button
               onClick={handlePurchaseService}
               disabled={isPurchasing || !userAddress}

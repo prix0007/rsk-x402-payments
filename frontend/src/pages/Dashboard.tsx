@@ -45,7 +45,7 @@ const Dashboard: React.FC = () => {
     // For now, we'll show all active services as potential subscriptions
     // In a real app, you'd filter based on actual subscription data
     return allServices.filter(service =>
-      service.isActive && service.owner.toLowerCase() !== userAddress.toLowerCase()
+      service.active && service.owner.toLowerCase() !== userAddress.toLowerCase()
     );
   }, [allServices, userAddress]);
 
@@ -61,7 +61,7 @@ const Dashboard: React.FC = () => {
 
       // Calculate service stats
       const totalServices = myServices.length;
-      const activeServices = myServices.filter(s => s.isActive).length;
+      const activeServices = myServices.filter(s => s.active).length;
 
       // Calculate total revenue (sum of all payments to user's services)
       let totalRevenue = '0';
@@ -105,8 +105,16 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleAccessService = (serviceId: string) => {
-    window.location.href = `/protected/${serviceId}/resource1`;
+  const handleAccessService = async (serviceId: string) => {
+    const resourceId = client?.generateResourceId(`${serviceId}/resource1`, userAddress)
+    const url = `https://x402.prix0007.dev/api/x402/protected/${serviceId}/${resourceId}`
+    try {
+      console.log(url)
+      const res = await fetch(url, { headers: { "X-User-Address": userAddress ?? "" }})
+      console.log(await res.json())
+    } catch(e) {
+      console.error(e)
+    }
   };
 
   const handleServiceUpdated = () => {

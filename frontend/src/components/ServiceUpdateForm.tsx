@@ -8,7 +8,7 @@ interface ServiceUpdateFormData {
   selectedServiceId: string;
   serviceName: string;
   newPrice: string;
-  isActive: boolean;
+  active: boolean;
 }
 
 const ServiceUpdateForm: React.FC = () => {
@@ -18,7 +18,7 @@ const ServiceUpdateForm: React.FC = () => {
     selectedServiceId: '',
     serviceName: '',
     newPrice: '',
-    isActive: true
+    active: true
   });
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateHash, setUpdateHash] = useState<Hash | null>(null);
@@ -42,7 +42,7 @@ const ServiceUpdateForm: React.FC = () => {
           ...prev,
           serviceName: selectedService.name,
           newPrice: selectedService.price,
-          isActive: selectedService.isActive
+          active: selectedService.active
         }));
       }
     }
@@ -118,7 +118,7 @@ const ServiceUpdateForm: React.FC = () => {
       // Prepare update parameters
       const updateParams: UpdateServiceParams = {
         serviceId: formData.selectedServiceId,
-        active: formData.isActive
+        active: formData.active
       };
 
       // Update service using SDK
@@ -174,7 +174,7 @@ const ServiceUpdateForm: React.FC = () => {
               <option value="">Select a service to update</option>
               {userServices.map((service) => (
                 <option key={service.id} value={service.id}>
-                  {service.name} - {service.price} USDRIF - {service.isActive ? 'Active' : 'Inactive'}
+                  {service.name} - {service.price} USDRIF - {service.active ? 'Active' : 'Inactive'}
                 </option>
               ))}
             </select>
@@ -235,8 +235,8 @@ const ServiceUpdateForm: React.FC = () => {
                   </div>
                   <div>
                     <span className="font-medium text-blue-800">Status:</span>
-                    <p className={`mt-1 font-medium ${selectedService.isActive ? 'text-green-700' : 'text-red-700'}`}>
-                      {selectedService.isActive ? 'Active' : 'Inactive'}
+                    <p className={`mt-1 font-medium ${selectedService.active ? 'text-green-700' : 'text-red-700'}`}>
+                      {selectedService.active ? 'Active' : 'Inactive'}
                     </p>
                   </div>
                   <div className="md:col-span-2">
@@ -300,18 +300,18 @@ const ServiceUpdateForm: React.FC = () => {
             <div className="flex items-center">
               <input
                 type="checkbox"
-                id="isActive"
-                name="isActive"
-                checked={formData.isActive}
+                id="active"
+                name="active"
+                checked={formData.active}
                 onChange={handleInputChange}
                 className="w-4 h-4 text-blue-600 border-2 border-gray-400 rounded focus:ring-blue-500 focus:ring-2 bg-white shadow-sm"
               />
-              <label htmlFor="isActive" className="ml-2 text-sm font-medium text-gray-700">
+              <label htmlFor="active" className="ml-2 text-sm font-medium text-gray-700">
                 Service is Active
               </label>
             </div>
             <p className="text-xs text-gray-500">
-              {formData.isActive
+              {formData.active
                 ? 'Service will be available for new payments'
                 : 'Service will be disabled for new payments'
               }
@@ -332,7 +332,7 @@ const ServiceUpdateForm: React.FC = () => {
                   Updating Status...
                 </div>
               ) : (
-                `${formData.isActive ? 'Activate' : 'Deactivate'} Service`
+                `${formData.active ? 'Activate' : 'Deactivate'} Service`
               )}
             </button>
           </form>

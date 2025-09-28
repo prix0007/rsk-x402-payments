@@ -10,7 +10,7 @@ interface Service {
   price: string;
   owner: string;
   validityDuration: number;
-  isActive: boolean;
+  active: boolean;
 }
 
 interface Subscription {

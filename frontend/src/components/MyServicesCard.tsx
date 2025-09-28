@@ -11,7 +11,7 @@ interface Service {
   price: string;
   owner: string;
   validityDuration: number;
-  isActive: boolean;
+  active: boolean;
   totalPayments?: number;
   totalRevenue?: string;
 }
@@ -49,7 +49,7 @@ const MyServicesCard: React.FC<MyServicesCardProps> = ({ service, onServiceUpdat
 
       const updateParams: UpdateServiceParams = {
         serviceId: service.id,
-        active: !service.isActive,
+        active: !service.active,
         price: client.parseUSDRIF(service.price) // Convert string price to BigNumber
       };
 
@@ -86,11 +86,11 @@ const MyServicesCard: React.FC<MyServicesCardProps> = ({ service, onServiceUpdat
             <div className="flex items-center gap-2 mt-1">
               <span className="text-sm text-gray-500">Your Service</span>
               <div className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-                service.isActive
+                service.active
                   ? 'bg-green-100 text-green-800'
                   : 'bg-red-100 text-red-800'
               }`}>
-                {service.isActive ? 'Active' : 'Inactive'}
+                {service.active ? 'Active' : 'Inactive'}
               </div>
             </div>
           </div>
@@ -173,7 +173,7 @@ const MyServicesCard: React.FC<MyServicesCardProps> = ({ service, onServiceUpdat
               className={`w-full py-2 px-4 rounded-lg font-medium transition-colors ${
                 isUpdating || !userAddress
                   ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                  : service.isActive
+                  : service.active
                     ? 'bg-red-600 hover:bg-red-700 text-white'
                     : 'bg-green-600 hover:bg-green-700 text-white'
               }`}
@@ -183,7 +183,7 @@ const MyServicesCard: React.FC<MyServicesCardProps> = ({ service, onServiceUpdat
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   Updating...
                 </div>
-              ) : service.isActive ? (
+              ) : service.active ? (
                 'Deactivate Service'
               ) : (
                 'Activate Service'

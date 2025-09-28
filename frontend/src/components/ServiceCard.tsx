@@ -32,8 +32,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onAccessService }) =
     // You could add a toast notification here
   };
 
-  console.log(client?.generateResourceId(`0x4e55b4685aab418ed1fa6be5d01f40613077866a17379c5598f35e38bc367ba3
-/resource1`, userAddress))
+  console.log(client?.generateResourceId(`${service.id}/resource1`, userAddress))
 
   const handlePurchaseService = async () => {
     if (!userAddress || !client) {

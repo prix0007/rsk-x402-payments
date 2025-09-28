@@ -480,11 +480,17 @@ export class X402Client {
    */
   async checkAccess(user: string, resourceId: string, validityPeriod?: number): Promise<AccessResult> {
     try {
+      // Validate and checksum the user address
+      if (!isValidAddress(user)) {
+        throw new AccessError('Invalid user address');
+      }
+
+      const checksummedUser = ethers.utils.getAddress(user);
       const period = validityPeriod ?? 3600; // Default 1 hour
-      const hasAccess = await this.accessControl.checkAccess(user, resourceId, period);
+      const hasAccess = await this.accessControl.checkAccess(checksummedUser, resourceId, period);
 
       if (hasAccess) {
-        const lastAccessTime = await this.accessControl.lastAccess(resourceId, user);
+        const lastAccessTime = await this.accessControl.lastAccess(resourceId, checksummedUser);
         return {
           hasAccess: true,
           lastAccessTime: lastAccessTime.toNumber(),
@@ -504,7 +510,13 @@ export class X402Client {
    */
   async hasValidAccess(user: string, resourceId: string): Promise<boolean> {
     try {
-      return await this.accessControl.hasValidAccess(user, resourceId);
+      // Validate and checksum the user address
+      if (!isValidAddress(user)) {
+        throw new AccessError('Invalid user address');
+      }
+
+      const checksummedUser = ethers.utils.getAddress(user);
+      return await this.accessControl.hasValidAccess(checksummedUser, resourceId);
 
     } catch (error) {
       throw new AccessError(`Failed to check valid access: ${parseError(error)}`);

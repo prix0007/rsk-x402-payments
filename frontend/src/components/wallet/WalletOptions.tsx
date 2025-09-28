@@ -1,14 +1,17 @@
 import * as React from 'react'
-import { Connector, useConnect } from 'wagmi'
+import { useConnect } from 'wagmi'
 
 const WalletOptions:React.FC = () => {
   const { connectors, connect } = useConnect()
 
-  return connectors.map((connector) => (
-    <button key={connector.uid} onClick={() => connect({ connector })}>
-      {connector.name}
-    </button>
-  ))
+  return <div className='flex gap-2'>
+    {connectors.map((connector) => (
+      <button className='btn btn-primary' key={connector.uid} onClick={() => connect({ connector })}>
+        {connector.name}
+      </button>
+    ))
+    }
+  </div>
 }
 
 export default WalletOptions

@@ -19,8 +19,6 @@ router.get('/protected/:serviceId/:resourceId', async (req, res) => {
     // Check if user has valid access (paid subscription or payment)
     const accessResult = await x402Client.checkAccess(userAddress, resourceId);
 
-    console.log({ accessResult })
-
     if (!accessResult.hasAccess) {
       // Get service details for payment info
       const service = await x402Client.getService(serviceId);
@@ -67,8 +65,8 @@ router.get('/protected/:serviceId/:resourceId', async (req, res) => {
           data: 'This is premium content that requires payment to access.',
           timestamp: new Date().toISOString(),
           serviceInfo: {
-            name: service?.name || 'Premium Service',
-            description: service?.description || 'Premium content access'
+            name: 'Premium Service',
+            description: 'Premium content access'
           }
         }
       }

@@ -26,7 +26,6 @@ import {
   generateServiceId,
   formatUSDRIF,
   parseUSDRIF,
-  isValidAddress,
   normalizeAddress,
   waitForTransaction,
   validateServiceParams,

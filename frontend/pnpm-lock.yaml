@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@prix0007/x402-payments-sdk':
-        specifier: ^1.0.1
-        version: 1.0.1(bufferutil@4.0.9)(react@19.1.1)(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(wagmi@2.17.5(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.14)(bufferutil@4.0.9)(react@19.1.1)(typescript@5.9.2)(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11))
+        specifier: ^1.0.2
+        version: 1.0.2(bufferutil@4.0.9)(react@19.1.1)(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(wagmi@2.17.5(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.14)(bufferutil@4.0.9)(react@19.1.1)(typescript@5.9.2)(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11))
       '@tailwindcss/postcss':
         specifier: ^4.1.13
         version: 4.1.13
@@ -702,8 +702,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@prix0007/x402-payments-sdk@1.0.1':
-    resolution: {integrity: sha512-gZE48MzdcVa0sXSOxilaht0oEjnQhtqfrJdRe7MBGR+mUTM7E8KwkkXI+3vUugZRsBDCkWQ5qzwS7ZNZau2CIw==}
+  '@prix0007/x402-payments-sdk@1.0.2':
+    resolution: {integrity: sha512-3Wnyrh5S6xWFNH4psPB/NOT7faCBXmcIsOX30XFBXYCQVVlATP2jtqTWEnOWhh8h5slb4UD3aKqHe6PE4OD2dw==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: '>=18.0.0'
@@ -3943,7 +3943,7 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@prix0007/x402-payments-sdk@1.0.1(bufferutil@4.0.9)(react@19.1.1)(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(wagmi@2.17.5(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.14)(bufferutil@4.0.9)(react@19.1.1)(typescript@5.9.2)(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11))':
+  '@prix0007/x402-payments-sdk@1.0.2(bufferutil@4.0.9)(react@19.1.1)(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(wagmi@2.17.5(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.14)(bufferutil@4.0.9)(react@19.1.1)(typescript@5.9.2)(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11))':
     dependencies:
       ethers: 5.8.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
     optionalDependencies:

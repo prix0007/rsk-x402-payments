@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@prix0007/x402-payments-sdk':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.0.2
+        version: 1.0.2
       cors:
         specifier: ^2.8.5
         version: 2.8.5
@@ -425,9 +425,20 @@ packages:
   '@paralleldrive/cuid2@2.2.2':
     resolution: {integrity: sha512-ZOBkgDwEdoYVlSeRbYYXs0S9MejQofiVYoTbKzy/6GQa39/q5tQU2IX46+shYnUkpEl3wc+J6wRlar7r2EK2xA==}
 
-  '@prix0007/x402-payments-sdk@1.0.0':
-    resolution: {integrity: sha512-UGDIRM7aUSgGN2xM9Bu67NNEDLIFYxJGHcGOCIWf5MiyxV86V614Ge63nPd1gSD4EvFw+URyHBrav4oOM0utdQ==}
+  '@prix0007/x402-payments-sdk@1.0.2':
+    resolution: {integrity: sha512-3Wnyrh5S6xWFNH4psPB/NOT7faCBXmcIsOX30XFBXYCQVVlATP2jtqTWEnOWhh8h5slb4UD3aKqHe6PE4OD2dw==}
     engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: '>=18.0.0'
+      viem: '>=2.0.0'
+      wagmi: '>=2.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      viem:
+        optional: true
+      wagmi:
+        optional: true
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -2474,7 +2485,7 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.8.0
 
-  '@prix0007/x402-payments-sdk@1.0.0':
+  '@prix0007/x402-payments-sdk@1.0.2':
     dependencies:
       ethers: 5.8.0
     transitivePeerDependencies:
